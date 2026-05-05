@@ -872,7 +872,7 @@
     <li><a href="#mission">Mission</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="https://app.vetcheckhq.com" class="nav-cta">Log In / Sign Up</a></li>
+    <li><a href="https://app.vetcheckhq.com" class="nav-cta" id="nav-cta-btn">Log In / Sign Up</a></li>
   </ul>
 
   <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMenu()">
@@ -907,7 +907,7 @@
     </p>
 
     <div class="hero-actions">
-      <a href="https://app.vetcheckhq.com" class="btn-primary">
+      <a href="https://app.vetcheckhq.com" class="btn-primary" id="hero-cta-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
         Log In / Sign Up
       </a>
@@ -1240,7 +1240,7 @@
           <li><a href="#features">Features</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#mission">Mission</a></li>
-          <li><a href="https://app.vetcheckhq.com">Log In / Sign Up</a></li>
+          <li><a href="https://app.vetcheckhq.com" id="mobile-cta-btn">Log In / Sign Up</a></li>
         </ul>
       </div>
 
@@ -1293,6 +1293,30 @@
     const m = document.getElementById('mobile-menu');
     m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
   }
+
+  // ── Auth-aware CTAs
+  (function() {
+    const APP = 'https://app.vetcheckhq.com';
+    const ids = ['nav-cta-btn', 'hero-cta-btn', 'mobile-cta-btn'];
+    function setLoggedIn() {
+      ids.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = 'Open App';
+      });
+    }
+    var iframe = document.createElement('iframe');
+    iframe.src = APP + '/?auth-check=1';
+    iframe.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
+    document.body.appendChild(iframe);
+    window.addEventListener('message', function(e) {
+      if (e.origin !== APP) return;
+      if (e.data && e.data.type === 'VETCHECK_AUTH' && e.data.loggedIn === true) {
+        setLoggedIn();
+      }
+    });
+    setTimeout(function() { if (iframe.parentNode) iframe.remove(); }, 3000);
+  })();
 
   // ── Nav shrink on scroll ────────────────────────────────────
   const nav = document.querySelector('nav');
