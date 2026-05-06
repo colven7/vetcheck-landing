@@ -177,8 +177,10 @@
 
     /* Canvas sits behind everything */
     #hero-canvas {
-      position: absolute;
-      inset: 0;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: 0;
       pointer-events: none;
     }
@@ -1572,16 +1574,16 @@
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
     var traces = [];
-    var NUM_TRACES = 18;
+    var NUM_TRACES = 30;
     var TRACE_DURATION = 3500; // ms to fully draw a trace
-    var FADE_DURATION  = 1200; // ms to fade out
-    var SPAWN_INTERVAL = 400;  // ms between new traces
+    var FADE_DURATION  = 1500; // ms to fade out
+    var SPAWN_INTERVAL = 280;  // ms between new traces
     var lastSpawn = 0;
     var activeCount = 0;
 
     function resize() {
-      canvas.width  = canvas.offsetWidth  || window.innerWidth;
-      canvas.height = canvas.offsetHeight || window.innerHeight;
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
     resize();
     window.addEventListener('resize', function() {
@@ -1762,6 +1764,14 @@
     }
 
     requestAnimationFrame(loop);
+
+    // Fade canvas out as user scrolls past the hero
+    window.addEventListener('scroll', function() {
+      var heroH = document.getElementById('hero').offsetHeight;
+      var scrollY = window.scrollY;
+      var fade = Math.max(0, 1 - (scrollY / (heroH * 0.6)));
+      canvas.style.opacity = fade;
+    });
   })();
 </script>
 </body>
