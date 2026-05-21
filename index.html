@@ -7,7 +7,11 @@
   <meta name="description" content="VetCheck is the financial tracking and personal intelligence platform built for veterans, active-duty military, law enforcement, fire, federal, and emergency service professionals." />
   <meta property="og:title" content="VetCheck: Financial Intelligence for Veterans &amp; Those Who Serve" />
   <meta property="og:description" content="Track. Plan. Grow. Built for veterans and every branch of public service. Access from any browser." />
-  <meta property="og:url" content="https://vetcheck.com" />
+  <meta property="og:url" content="https://vetcheckhq.com" />
+  <link rel="canonical" href="https://vetcheckhq.com" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <meta property="og:image" content="https://vetcheckhq.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -710,6 +714,250 @@
       gap: 2rem;
     }
 
+    .billing-toggle {
+      display: inline-flex;
+      gap: 0.3rem;
+      margin-top: 2rem;
+      padding: 0.35rem;
+      background: rgba(15,21,38,0.85);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+    .bt-opt {
+      font-family: var(--font-sub);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .bt-opt:hover { color: var(--offwhite); }
+    .bt-opt.active {
+      background: var(--gold);
+      color: var(--navy);
+      box-shadow: 0 0 18px rgba(201,162,39,0.35);
+    }
+    .bt-save {
+      font-size: 0.72rem;
+      padding: 0.18rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(94,234,212,0.15);
+      color: var(--teal);
+      letter-spacing: 0.04em;
+    }
+    .bt-opt.active .bt-save {
+      background: rgba(10,14,26,0.25);
+      color: var(--navy);
+    }
+    .atlas-mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1.4rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(201,162,39,0.22) 0%, rgba(201,162,39,0.05) 55%, transparent 75%);
+      filter: drop-shadow(0 0 22px rgba(201,162,39,0.45));
+      position: relative;
+      overflow: hidden;
+      animation: atlas-glow 4s ease-in-out infinite;
+    }
+
+    /* Main mark — split into thirds for boot-up reassembly */
+    .atlas-mark svg {
+      width: 96px;
+      height: 96px;
+      position: relative;
+      z-index: 3;
+      animation: atlas-flicker 5s steps(1) infinite;
+    }
+
+    /* Top slice ghost */
+    .atlas-mark .glitch-slice {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 96px;
+      height: 96px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 4;
+    }
+    .atlas-mark .slice-r,
+    .atlas-mark .slice-c {
+      position: absolute;
+      inset: 0;
+      background-size: 96px 96px;
+      background-position: center;
+      background-repeat: no-repeat;
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+    .atlas-mark .slice-r {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96' fill='none'><circle cx='48' cy='48' r='40' stroke='%23ff3860' stroke-width='1.4'/><line x1='24' y1='80' x2='44' y2='16' stroke='%23ff3860' stroke-width='1.4'/><line x1='72' y1='80' x2='52' y2='16' stroke='%23ff3860' stroke-width='1.4'/><line x1='8' y1='55' x2='88' y2='55' stroke='%23ff3860' stroke-width='1.4'/></svg>");
+      animation: atlas-rgb-r 5s steps(1) infinite;
+    }
+    .atlas-mark .slice-c {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96' fill='none'><circle cx='48' cy='48' r='40' stroke='%2300ffff' stroke-width='1.4'/><line x1='24' y1='80' x2='44' y2='16' stroke='%2300ffff' stroke-width='1.4'/><line x1='72' y1='80' x2='52' y2='16' stroke='%2300ffff' stroke-width='1.4'/><line x1='8' y1='55' x2='88' y2='55' stroke='%2300ffff' stroke-width='1.4'/></svg>");
+      animation: atlas-rgb-c 5s steps(1) infinite;
+    }
+
+    /* Scanline overlay sweeping down */
+    .atlas-mark::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(201,162,39,0) 45%,
+        rgba(201,162,39,0.55) 50%,
+        rgba(201,162,39,0) 55%,
+        transparent 100%);
+      pointer-events: none;
+      z-index: 5;
+      mix-blend-mode: screen;
+      animation: atlas-scanline 3.6s linear infinite;
+    }
+
+    /* Fine horizontal scanlines (CRT texture) */
+    .atlas-mark::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 3px);
+      pointer-events: none;
+      z-index: 6;
+      mix-blend-mode: multiply;
+      opacity: 0.4;
+    }
+
+    @keyframes atlas-flicker {
+      0%, 100% { opacity: 1; transform: translate(0,0); filter: none; }
+      4%       { opacity: 0.15; transform: translate(2px,-1px); filter: brightness(1.8); }
+      5%       { opacity: 1; transform: translate(-1px,0); }
+      6%       { opacity: 0.6; transform: translate(0,1px); filter: blur(0.6px); }
+      7%       { opacity: 1; transform: translate(0,0); filter: none; }
+      19%      { opacity: 0.8; transform: translate(-2px,0); }
+      20%      { opacity: 0.2; transform: translate(3px,0); filter: brightness(2); }
+      21%      { opacity: 1; transform: translate(0,0); filter: none; }
+      48%      { opacity: 1; transform: translate(0,0); }
+      49%      { opacity: 0.1; transform: translate(-3px,2px); filter: blur(1px) brightness(0.5); }
+      50%      { opacity: 0.9; transform: translate(2px,-1px); }
+      51%      { opacity: 1; transform: translate(0,0); filter: none; }
+      74%      { opacity: 0.5; transform: translate(0,0); filter: brightness(1.5); }
+      75%      { opacity: 1; transform: translate(0,0); filter: none; }
+      92%      { opacity: 0.3; transform: translate(1px,1px); }
+      93%      { opacity: 1; transform: translate(0,0); }
+    }
+
+    @keyframes atlas-rgb-r {
+      0%, 3%, 8%, 18%, 22%, 47%, 52%, 73%, 76%, 91%, 94%, 100% { opacity: 0; transform: translate(0,0); }
+      4%       { opacity: 0.85; transform: translate(4px,0); }
+      5%, 6%   { opacity: 0.65; transform: translate(3px,0); }
+      7%       { opacity: 0.3; transform: translate(2px,0); }
+      19%, 20% { opacity: 0.9; transform: translate(-4px,1px); }
+      21%      { opacity: 0.4; transform: translate(-2px,0); }
+      48%, 49% { opacity: 0.95; transform: translate(5px,-1px); }
+      50%, 51% { opacity: 0.5; transform: translate(2px,0); }
+      74%, 75% { opacity: 0.7; transform: translate(-3px,0); }
+      92%, 93% { opacity: 0.8; transform: translate(3px,1px); }
+    }
+
+    @keyframes atlas-rgb-c {
+      0%, 3%, 8%, 18%, 22%, 47%, 52%, 73%, 76%, 91%, 94%, 100% { opacity: 0; transform: translate(0,0); }
+      4%       { opacity: 0.85; transform: translate(-4px,0); }
+      5%, 6%   { opacity: 0.65; transform: translate(-3px,0); }
+      7%       { opacity: 0.3; transform: translate(-2px,0); }
+      19%, 20% { opacity: 0.9; transform: translate(4px,-1px); }
+      21%      { opacity: 0.4; transform: translate(2px,0); }
+      48%, 49% { opacity: 0.95; transform: translate(-5px,1px); }
+      50%, 51% { opacity: 0.5; transform: translate(-2px,0); }
+      74%, 75% { opacity: 0.7; transform: translate(3px,0); }
+      92%, 93% { opacity: 0.8; transform: translate(-3px,-1px); }
+    }
+
+    @keyframes atlas-scanline {
+      0%   { transform: translateY(-100%); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+
+    @keyframes atlas-glow {
+      0%, 100% { filter: drop-shadow(0 0 18px rgba(201,162,39,0.35)); }
+      50%      { filter: drop-shadow(0 0 32px rgba(201,162,39,0.65)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .atlas-mark,
+      .atlas-mark svg,
+      .atlas-mark::before,
+      .atlas-mark::after,
+      .atlas-mark .slice-r,
+      .atlas-mark .slice-c { animation: none; opacity: 1; }
+      .atlas-mark::before, .atlas-mark .slice-r, .atlas-mark .slice-c { opacity: 0; }
+    }
+
+    .founding-counter {
+      margin: 0.2rem 0 1.1rem;
+      padding: 0.7rem 0.9rem;
+      background: rgba(15,21,38,0.55);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .fc-track {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 0.55rem;
+    }
+    .fc-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      box-shadow: 0 0 12px rgba(201,162,39,0.45);
+      transition: width 0.8s ease;
+    }
+    .fc-label {
+      font-family: var(--font-sub);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .fc-label strong { color: var(--gold); font-weight: 600; }
+    .price-card.is-full .price-badge { background: rgba(255,255,255,0.08); color: var(--muted); }
+    .price-card.is-full .price-amount,
+    .price-card.is-full .fc-fill { display: none; }
+    .price-card.is-full .fc-track { background: rgba(94,234,212,0.12); }
+
+    .price-sub {
+      font-family: var(--font-sub);
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: -0.4rem;
+      margin-bottom: 1rem;
+      min-height: 1.1rem;
+    }
+
     .price-card {
       background: var(--navy2);
       border: 1px solid var(--border);
@@ -1089,7 +1337,9 @@
   <ul class="nav-links">
     <li><a href="#mission">Mission</a></li>
     <li><a href="#features">Features</a></li>
+    <li><a href="#atlas">Atlas</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="https://app.vetcheckhq.com" class="nav-cta" id="nav-cta-btn">Log In / Sign Up</a></li>
   </ul>
 
@@ -1102,7 +1352,9 @@
 <div id="mobile-menu" style="display:none; position:fixed; inset:0; z-index:99; background:rgba(10,14,26,0.97); padding:90px 5vw 3rem; flex-direction:column; gap:2rem;">
   <a href="#mission" style="color:var(--offwhite); font-family:var(--font-display); font-size:1.8rem; font-weight:400; text-transform:uppercase; text-decoration:none; letter-spacing:0.08em;" onclick="toggleMenu()">Mission</a>
   <a href="#features" style="color:var(--offwhite); font-family:var(--font-display); font-size:1.8rem; font-weight:400; text-transform:uppercase; text-decoration:none; letter-spacing:0.08em;" onclick="toggleMenu()">Features</a>
+  <a href="#atlas" style="color:var(--offwhite); font-family:var(--font-display); font-size:1.8rem; font-weight:400; text-transform:uppercase; text-decoration:none; letter-spacing:0.08em;" onclick="toggleMenu()">Atlas</a>
   <a href="#pricing" style="color:var(--offwhite); font-family:var(--font-display); font-size:1.8rem; font-weight:400; text-transform:uppercase; text-decoration:none; letter-spacing:0.08em;" onclick="toggleMenu()">Pricing</a>
+  <a href="#faq" style="color:var(--offwhite); font-family:var(--font-display); font-size:1.8rem; font-weight:400; text-transform:uppercase; text-decoration:none; letter-spacing:0.08em;" onclick="toggleMenu()">FAQ</a>
   <a href="https://app.vetcheckhq.com" style="display:inline-block; background:var(--gold); color:var(--navy); font-family:var(--font-sub); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:1rem 2rem; border-radius:3px; text-decoration:none; width:fit-content; margin-top:1rem; box-shadow:0 0 20px rgba(201,162,39,0.4);">Log In / Sign Up</a>
 </div>
 
@@ -1122,11 +1374,7 @@
     </h1>
 
     <p class="hero-sub">
-      Built for those who serve. Designed for anyone serious about what comes next.
-
-      VetCheck is a personal finance and career intelligence platform built for veterans, active-duty military, and public service professionals of all backgrounds and career fields.
-
-      VetCheck was built on a simple belief: you should never have to compromise your security to gain control of your finances. No sensitive information required. Just your goals, your data, and the tools to make it happen.
+      VetCheck is a personal finance and career intelligence platform built for veterans, active-duty military, and public service professionals, including law enforcement, fire service, federal agents, corrections, and EMS.
     </p>
 
     <div class="hero-actions">
@@ -1140,7 +1388,7 @@
     </div>
 
     <p class="hero-disclaimer">
-      Built for veterans and every professional who serves. Informational only. Not financial, legal, or professional advice.
+      Built for veterans and every professional who serves.
     </p>
   </div>
 </section>
@@ -1275,6 +1523,22 @@
       <div class="feature-title">Security &amp; Privacy</div>
       <div class="feature-desc">2FA via Authenticator app. 15-minute idle timeout with 1-minute countdown. New-device verification. Your data stays yours.</div>
     </div>
+
+    <div class="feature-card fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/></svg>
+      </div>
+      <div class="feature-title">Atlas AI</div>
+      <div class="feature-desc">An informational AI companion built into VetCheck. Ask questions about your own tracked data, explore financial concepts in plain language, and surface patterns in your habits.</div>
+    </div>
+
+    <div class="feature-card fade-up delay-1">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="feature-title">3,000+ Daily Fortunes</div>
+      <div class="feature-desc">Hourly-rotating motivational fortunes tailored to your service background, sector, and language. From Stoic philosophy to military leadership wisdom.</div>
+    </div>
   </div>
 </section>
 
@@ -1293,7 +1557,7 @@
         <div class="intel-bullet">Hourly-rotating motivational fortunes tailored to your background and sector</div>
         <div class="intel-bullet">Privacy blur on sensitive numbers, toggle on command</div>
         <div class="intel-bullet">Income vs. expense charts with line and bar modes</div>
-        <div class="intel-bullet">Available in 9 languages to serve members across the globe</div>
+        <div class="intel-bullet">Bills and debt tracker with payoff projections for every account</div>
       </div>
     </div>
 
@@ -1335,24 +1599,140 @@
         <span style="font-family:var(--font-display); font-size:1.5rem; font-weight:400; color:var(--gold); text-shadow: 0 0 20px rgba(201,162,39,0.5);">+$4,082</span>
       </div>
 
-      <p style="margin-top:0.7rem; font-size:0.68rem; color:var(--muted); font-style:italic;">Sample data only. Not real financial advice. Your figures stay private and secure.</p>
+      <p style="margin-top:0.7rem; font-size:0.68rem; color:var(--muted); font-style:italic;">Sample data only. Your figures stay private and secure.</p>
     </div>
   </div>
 </section>
+
+<!-- ─── ATLAS ─────────────────────────────────────────────── -->
+<section id="atlas" style="padding: 7rem 5vw; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:
+      radial-gradient(ellipse 60% 50% at 50% 30%, rgba(201,162,39,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(94,234,212,0.04) 0%, transparent 60%);
+      pointer-events:none;"></div>
+  <div style="max-width:1180px; margin:0 auto; position:relative;">
+    <div style="text-align:center; max-width:780px; margin:0 auto 4rem;">
+      <div class="atlas-mark fade-up" aria-hidden="true"><div class="glitch-slice"><div class="slice-r"></div><div class="slice-c"></div></div><svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" aria-label="Atlas"><circle cx="48" cy="48" r="47.25" stroke="#C9A227" stroke-width="1.5" fill="none"/><circle cx="48" cy="48" r="43.95" stroke="#C9A227" stroke-width="0.6" fill="none"/><circle cx="48" cy="48" r="41.07" stroke="#C9A227" stroke-width="0.36" fill="none"/><ellipse cx="48" cy="2.025" rx="1.2" ry="2.4" fill="#C9A227" transform="rotate(-90 48 2.025)"/><ellipse cx="93.975" cy="48" rx="1.2" ry="2.4" fill="#C9A227"/><ellipse cx="48" cy="93.975" rx="1.2" ry="2.4" fill="#C9A227" transform="rotate(90 48 93.975)"/><ellipse cx="2.025" cy="48" rx="1.2" ry="2.4" fill="#C9A227" transform="rotate(-180 2.025 48)"/><circle cx="48" cy="90.51" r="0.42" fill="#C9A227"/><path d="M 24.591 80.334 L 43.667 16.265 L 41.655 15.666 L 22.578 79.735 Z" fill="#C9A227"/><line x1="24.591" y1="80.334" x2="43.667" y2="16.265" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><line x1="22.578" y1="79.735" x2="41.655" y2="15.666" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><path d="M 73.422 79.735 L 54.345 15.666 L 52.333 16.265 L 71.409 80.334 Z" fill="#C9A227"/><line x1="73.422" y1="79.735" x2="54.345" y2="15.666" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><line x1="71.409" y1="80.334" x2="52.333" y2="16.265" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><path d="M 7.656 56.738 L 88.344 56.738 L 88.344 54.638 L 7.656 54.638 Z" fill="#C9A227"/><line x1="7.656" y1="54.638" x2="88.344" y2="54.638" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><line x1="7.656" y1="56.738" x2="88.344" y2="56.738" stroke="#C9A227" stroke-width="0.9" stroke-linecap="round"/><rect x="42.661" y="15.365" width="10.678" height="1.2" fill="#C9A227"/><circle cx="48" cy="15.125" r="1.2" fill="#C9A227"/><path d="M 48 54.188 L 48.9 55.688 L 48 57.188 L 47.1 55.688 Z" fill="#C9A227"/><circle cx="7.656" cy="55.688" r="0.72" fill="#C9A227"/><circle cx="88.344" cy="55.688" r="0.72" fill="#C9A227"/></svg></div>
+      <span class="section-label fade-up">Built-In Intelligence</span>
+      <h2 class="section-title fade-up delay-1">Meet <span style="color:var(--gold)">Atlas</span></h2>
+      <p class="section-sub fade-up delay-2" style="margin:0 auto;">Atlas is the informational AI companion built into VetCheck. Ask questions about your own tracked data, explore financial concepts in plain language, and surface patterns across your income, bills, debts, and habits.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:3rem; align-items:start;" class="atlas-grid">
+      <div class="fade-up">
+        <div style="font-family:var(--font-sub); font-size:0.75rem; color:var(--gold); letter-spacing:0.18em; text-transform:uppercase; font-weight:600; margin-bottom:1rem;">What Atlas Can Do</div>
+
+        <div style="display:flex; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--border);">
+          <div style="flex-shrink:0; width:36px; height:36px; border-radius:8px; background:rgba(201,162,39,0.12); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div>
+            <div style="font-family:var(--font-sub); font-weight:600; font-size:1rem; color:var(--offwhite); margin-bottom:0.3rem;">Answer Questions About Your Data</div>
+            <div style="font-size:0.9rem; color:var(--muted);">"How much did I spend on bills last month?" "Which debt is highest interest?" Atlas reads your own tracked information and answers in plain language.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--border);">
+          <div style="flex-shrink:0; width:36px; height:36px; border-radius:8px; background:rgba(201,162,39,0.12); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <div style="font-family:var(--font-sub); font-weight:600; font-size:1rem; color:var(--offwhite); margin-bottom:0.3rem;">Explain Financial Concepts</div>
+            <div style="font-size:0.9rem; color:var(--muted);">Curious how BAH works, what an APR really means, or how the snowball method compares to the avalanche method? Atlas explains it in plain English, then steps aside so you can decide.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--border);">
+          <div style="flex-shrink:0; width:36px; height:36px; border-radius:8px; background:rgba(201,162,39,0.12); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <div>
+            <div style="font-family:var(--font-sub); font-weight:600; font-size:1rem; color:var(--offwhite); margin-bottom:0.3rem;">Surface Patterns &amp; Trends</div>
+            <div style="font-size:0.9rem; color:var(--muted);">Atlas reviews your tracked income, bills, debts, and check-in streaks and highlights patterns you might not catch on your own.</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; padding:1.2rem 0;">
+          <div style="flex-shrink:0; width:36px; height:36px; border-radius:8px; background:rgba(201,162,39,0.12); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold);">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div>
+            <div style="font-family:var(--font-sub); font-weight:600; font-size:1rem; color:var(--offwhite); margin-bottom:0.3rem;">Built for Those Who Serve</div>
+            <div style="font-size:0.9rem; color:var(--muted);">Atlas understands military pay structures, BAH/BAS, deployment cycles, shift differentials, pensions, and VA benefits, the things off-the-shelf finance tools miss.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up delay-1" style="background:linear-gradient(180deg, var(--navy2) 0%, var(--navy3) 100%); border:1px solid var(--border); border-radius:14px; padding:1.5rem; box-shadow: 0 0 60px rgba(201,162,39,0.06), inset 0 1px 0 rgba(255,255,255,0.03);">
+        <div style="display:flex; align-items:center; gap:0.6rem; padding-bottom:1rem; border-bottom:1px solid var(--border); margin-bottom:1.2rem;">
+          <div style="width:36px; height:36px; border-radius:50%; background:radial-gradient(circle at center, rgba(201,162,39,0.18) 0%, rgba(201,162,39,0.04) 60%, transparent 80%); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; flex-shrink:0;" aria-label="Atlas">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 96 96" fill="none"><circle cx="48" cy="48" r="47.25" stroke="#C9A227" stroke-width="1.5" fill="none"/><circle cx="48" cy="48" r="43.95" stroke="#C9A227" stroke-width="0.6" fill="none"/><circle cx="48" cy="48" r="41.07" stroke="#C9A227" stroke-width="0.36" fill="none"/><ellipse cx="48" cy="2.025" rx="1.2" ry="2.4" fill="#C9A227"/><ellipse cx="93.975" cy="48" rx="2.4" ry="1.2" fill="#C9A227"/><ellipse cx="48" cy="93.975" rx="1.2" ry="2.4" fill="#C9A227"/><ellipse cx="2.025" cy="48" rx="2.4" ry="1.2" fill="#C9A227"/><circle cx="48" cy="90.51" r="0.42" fill="#C9A227"/><path d="M 24.591 80.334 L 43.667 16.265 L 41.655 15.666 L 22.578 79.735 Z" fill="#C9A227"/><path d="M 73.422 79.735 L 54.345 15.666 L 52.333 16.265 L 71.409 80.334 Z" fill="#C9A227"/><path d="M 7.656 56.738 L 88.344 56.738 L 88.344 54.638 L 7.656 54.638 Z" fill="#C9A227"/><rect x="42.661" y="15.365" width="10.678" height="1.2" fill="#C9A227"/><circle cx="48" cy="15.125" r="1.2" fill="#C9A227"/><path d="M 48 54.188 L 48.9 55.688 L 48 57.188 L 47.1 55.688 Z" fill="#C9A227"/><circle cx="7.656" cy="55.688" r="0.72" fill="#C9A227"/><circle cx="88.344" cy="55.688" r="0.72" fill="#C9A227"/></svg>
+          </div>
+          <div>
+            <div style="font-family:var(--font-sub); font-size:0.92rem; font-weight:600; letter-spacing:0.06em; color:var(--offwhite);">ATLAS</div>
+            <div style="font-size:0.7rem; color:var(--muted);">Informational AI Assistant</div>
+          </div>
+          <div style="margin-left:auto; display:flex; align-items:center; gap:0.4rem; font-size:0.7rem; color:var(--teal); font-family:var(--font-sub); letter-spacing:0.1em; text-transform:uppercase;">
+            <span style="width:6px; height:6px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal);"></span>
+            Online
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-bottom:0.8rem;">
+          <div style="max-width:78%; padding:0.7rem 1rem; background:rgba(94,234,212,0.08); border:1px solid rgba(94,234,212,0.2); border-radius:14px 14px 4px 14px; font-size:0.88rem; color:var(--offwhite);">Atlas, anything weird in my numbers this week?</div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-start; margin-bottom:0.8rem;">
+          <div style="max-width:88%; padding:0.7rem 1rem; background:rgba(201,162,39,0.07); border:1px solid var(--gold-dim); border-radius:14px 14px 14px 4px; font-size:0.88rem; color:var(--offwhite); line-height:1.55;">One thing stood out. Your <strong style="color:var(--gold);">Phone bill jumped from $78 to $134</strong> on Tuesday — that’s <strong style="color:#ff6b6b;">+72%</strong> vs your six-month average. Could be a one-time charge or a plan change. Also worth knowing: at your current pace, you’ll hit your <strong style="color:var(--teal);">Emergency Fund goal 6 weeks early</strong>.</div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; margin-bottom:0.8rem;">
+          <div style="max-width:78%; padding:0.7rem 1rem; background:rgba(94,234,212,0.08); border:1px solid rgba(94,234,212,0.2); border-radius:14px 14px 4px 14px; font-size:0.88rem; color:var(--offwhite);">Nice. If I throw an extra $200 at the car loan, when does it pay off?</div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-start; margin-bottom:1rem;">
+          <div style="max-width:88%; padding:0.7rem 1rem; background:rgba(201,162,39,0.07); border:1px solid var(--gold-dim); border-radius:14px 14px 14px 4px; font-size:0.88rem; color:var(--offwhite); line-height:1.55;">Based on your tracked balance and APR: an extra $200/mo would pay the car off <strong style="color:var(--gold);">11 months sooner</strong> and save you about <strong style="color:var(--teal);">$842 in interest</strong>. You’re also on a <strong style="color:var(--gold);">14-day check-in streak</strong> — longest yet. Want me to set a milestone for the new payoff date?</div>
+        </div>
+
+        <div style="padding-top:0.8rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:0.6rem;">
+          <div style="flex:1; padding:0.6rem 0.9rem; background:var(--navy); border:1px solid var(--border); border-radius:999px; font-size:0.82rem; color:var(--muted);">Ask Atlas anything about your data...</div>
+          <div style="width:36px; height:36px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; color:var(--navy); box-shadow:0 0 14px rgba(201,162,39,0.4);">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+        </div>
+
+        <p style="margin-top:1rem; font-size:0.68rem; color:var(--muted); font-style:italic; text-align:center;">Sample conversation.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @media (max-width: 900px) {
+    .atlas-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  }
+</style>
 
 <!-- ─── PRICING ───────────────────────────────────────────── -->
 <section id="pricing">
   <div class="pricing-header">
     <span class="section-label fade-up">Pricing</span>
     <h2 class="section-title fade-up delay-1">Simple. Transparent.<br><span style="color:var(--gold)">Mission-First.</span></h2>
-    <p class="section-sub fade-up delay-2" style="margin:0 auto;">Open to every veteran and public service professional. The first 50 members gain founding-member status, free for life. Everyone else gets a full month free before $9.99/month.</p>
+    <p class="section-sub fade-up delay-2" style="margin:0 auto;">Open to every veteran and public service professional. The first 100 members claim a founding-member spot at no cost. Everyone else gets a full month free, then chooses monthly or annual billing.</p>
+
+    <div class="billing-toggle fade-up delay-3" role="tablist" aria-label="Billing period">
+      <button type="button" class="bt-opt active" data-period="monthly" role="tab" aria-selected="true">Monthly</button>
+      <button type="button" class="bt-opt" data-period="annual" role="tab" aria-selected="false">Annual <span class="bt-save">Save $20</span></button>
+    </div>
   </div>
 
   <div class="pricing-grid">
     <div class="price-card fade-up">
       <div class="card-shimmer"></div>
       <div class="price-name">Standard</div>
-      <div class="price-amount">$9<span>.99/mo</span></div>
+      <div class="price-amount" data-monthly="$9.99/mo" data-annual="$99/yr">$9<span>.99/mo</span></div>
+      <div class="price-sub" data-monthly="Billed monthly" data-annual="$8.25/mo equivalent · billed once a year">Billed monthly</div>
       <div class="price-desc">After your free first month. Cancel anytime. No hidden fees.</div>
       <ul class="price-features">
         <li>
@@ -1373,30 +1753,43 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Atlas AI assistant included
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           Available in 9 languages
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           1 free month to start
         </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Switch monthly or annual any time
+        </li>
       </ul>
       <a href="https://app.vetcheckhq.com" class="btn-price outline">Get Started Free</a>
     </div>
 
-    <div class="price-card featured fade-up delay-1">
+    <div class="price-card featured fade-up delay-1" id="founding-card">
       <div class="card-shimmer"></div>
-      <div class="price-badge">Founding Member</div>
-      <div class="price-name">Founding Member</div>
-      <div class="price-amount">$0<span>/forever</span></div>
-      <div class="price-desc">Only 50 slots available. First 50 members get lifetime free access. No credit card, no future charges. Ever.</div>
+      <div class="price-badge" id="founding-badge">Founding Member</div>
+      <div class="price-name" id="founding-name">Founding Member</div>
+      <div class="price-amount" id="founding-amount">$0<span> / no charge</span></div>
+      <div class="price-sub" id="founding-sub">Limited to the first 100 members</div>
+      <div class="founding-counter" id="founding-counter" aria-live="polite">
+        <div class="fc-track"><div class="fc-fill" id="fc-fill" style="width:0%"></div></div>
+        <div class="fc-label" id="fc-label">Checking availability…</div>
+      </div>
+      <div class="price-desc" id="founding-desc">Only 100 slots available. Founding members are not billed for the Standard plan while their account remains active. No credit card required.</div>
       <ul class="price-features">
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          Everything in Standard
+          Everything in Standard (incl. Atlas AI)
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          Lifetime free, non-transferable
+          Free Standard access, non-transferable
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1408,13 +1801,96 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          No price changes, locked in
+          Locked-in founding-member rate
         </li>
       </ul>
       <a href="https://app.vetcheckhq.com" class="btn-price gold">Claim Your Spot</a>
     </div>
   </div>
 </section>
+
+<!-- ─── FAQ ───────────────────────────────────────────────── -->
+<section id="faq" style="padding: 7rem 5vw; position:relative;">
+  <div style="max-width:880px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:3.5rem;">
+      <span class="section-label fade-up">FAQ</span>
+      <h2 class="section-title fade-up delay-1">Common <span style="color:var(--gold)">Questions</span></h2>
+      <p class="section-sub fade-up delay-2" style="margin:0 auto;">Straight answers to the things people ask before signing up.</p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Do I have to be a veteran to use VetCheck?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">No. VetCheck is built for veterans, active-duty military, and every public-service profession, including law enforcement, fire service, EMS, federal agencies, and corrections. Anyone who serves, or who has served, is welcome.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Is Atlas a financial advisor?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">No. Atlas is an informational AI assistant only. It helps you understand and explore your tracked data and explains financial concepts in plain language. Atlas does not provide financial, legal, tax, or investment advice. For advice, consult a licensed professional.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Is my data private and secure?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">Your data stays yours. VetCheck uses encrypted storage, two-factor authentication via authenticator app, 15-minute idle timeout with a 1-minute warning, and new-device verification. You can toggle privacy blur on sensitive numbers at any time. We do not sell your data.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Does VetCheck connect to my bank?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">No. VetCheck is a manual tracking and informational platform. You enter income, bills, and debts on your terms. We never ask for your bank login or routing information. This keeps you in full control of what gets tracked.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          What devices can I use VetCheck on?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">VetCheck runs on iOS, Android, and any modern web browser. Sign in once and your data syncs across every device tied to your account.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          What languages does VetCheck support?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">VetCheck is available in 9 languages, with motivational fortunes and core interface fully localized. We continue to expand language coverage to serve members across the globe.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Can I cancel at any time?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">Yes. The Standard plan is month-to-month or annual and you can cancel anytime, no questions asked. Annual subscriptions stop renewing at the end of the paid term. Founding Members keep their no-charge Standard access while their account remains active.</p>
+      </details>
+
+      <details class="faq-item fade-up" style="padding:1.4rem 1.6rem; background:var(--navy2); border:1px solid var(--border); border-radius:10px; margin-bottom:1rem; cursor:pointer;">
+        <summary style="font-family:var(--font-sub); font-weight:600; font-size:1.05rem; color:var(--offwhite); list-style:none; display:flex; justify-content:space-between; align-items:center;">
+          Do I have to write a journal entry every day?
+          <span style="color:var(--gold); font-size:1.3rem; font-weight:300;">+</span>
+        </summary>
+        <p style="margin-top:1rem; font-size:0.95rem; color:var(--muted); line-height:1.7;">No. Daily Check-Ins use quick-tap chips — twelve pre-written wins and twelve pre-written blockers that rotate by day of the week, so Monday's prompts are different from Friday's. Tap whatever fits and you're done in under a minute. A free-form box is available if you want to add detail, but it's optional.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item[open] summary span { transform: rotate(45deg); }
+  details.faq-item summary span { transition: transform 0.2s; display:inline-block; }
+</style>
 
 <!-- ─── CALLOUT ───────────────────────────────────────────── -->
 <section id="callout">
@@ -1438,7 +1914,7 @@
   <div class="notice-inner fade-up">
     <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <p class="notice-text">
-      <strong>Informational Platform Only.</strong> VetCheck is a personal tracking and educational resource tool. Nothing within this application or website constitutes professional, financial, legal, medical, or investment advice of any kind. All features, including income tracking, debt management, opportunity listings, and daily check-ins, are provided strictly for informational and organizational purposes. Users are solely responsible for all financial and career decisions made. VetCheck and Colven LLC expressly disclaim all liability for any decisions made in reliance on this platform. For advice, consult a licensed professional. Contact: <a href="mailto:admin@colven.solutions" style="color:var(--gold);">admin@colven.solutions</a>
+      <strong>Informational Platform Only.</strong> VetCheck is a personal tracking and educational resource tool. Nothing within this application or website, including Atlas, constitutes professional, financial, legal, medical, or investment advice of any kind. All features, including income tracking, debt management, opportunity listings, Atlas AI responses, and daily check-ins, are provided strictly for informational and organizational purposes. Users are solely responsible for all financial and career decisions made. VetCheck and Colven LLC expressly disclaim all liability for any decisions made in reliance on this platform. For advice, consult a licensed professional. Contact: <a href="mailto:admin@colven.solutions" style="color:var(--gold);">admin@colven.solutions</a>
     </p>
   </div>
 </section>
@@ -1463,7 +1939,9 @@
         <h4>Platform</h4>
         <ul>
           <li><a href="#features">Features</a></li>
+          <li><a href="#atlas">Atlas AI</a></li>
           <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#mission">Mission</a></li>
           <li><a href="https://app.vetcheckhq.com" id="mobile-cta-btn">Log In / Sign Up</a></li>
         </ul>
@@ -1500,7 +1978,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Scroll fade-in ──────────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -1514,6 +1992,91 @@
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
   // ── Mobile menu ─────────────────────────────────────────────
+  // Founding Member live counter + sold-out swap
+  (function(){
+    var card = document.getElementById('founding-card');
+    if (!card) return;
+    var label = document.getElementById('fc-label');
+    var fill = document.getElementById('fc-fill');
+    var name = document.getElementById('founding-name');
+    var amount = document.getElementById('founding-amount');
+    var sub = document.getElementById('founding-sub');
+    var desc = document.getElementById('founding-desc');
+    var badge = document.getElementById('founding-badge');
+    var btn = card.querySelector('.btn-price');
+
+    function render(claimed, cap){
+      var remaining = Math.max(0, cap - claimed);
+      var pct = Math.min(100, Math.round((claimed / cap) * 100));
+      if (remaining > 0) {
+        fill.style.width = pct + '%';
+        label.innerHTML = '<strong>' + remaining + '</strong> of ' + cap + ' founding spots remaining';
+      } else {
+        card.classList.add('is-full');
+        badge.textContent = 'Program Closed';
+        name.textContent = 'Founding Spots Filled';
+        if (amount) amount.style.display = 'none';
+        sub.textContent = 'All 100 founding member spots have been claimed';
+        desc.innerHTML = 'The founding member program is closed. Thank you to the first 100 members who joined. The Standard plan remains open to everyone, with the first month free.';
+        // Hide the feature list and CTA — push toward Standard
+        var ul = card.querySelector('.price-features');
+        if (ul) ul.style.display = 'none';
+        if (btn) {
+          btn.textContent = 'See Standard Plan';
+          btn.setAttribute('href', '#pricing');
+          btn.classList.remove('gold');
+          btn.classList.add('outline');
+        }
+        if (fill) fill.style.width = '100%';
+        if (label) label.innerHTML = '<strong>100 of 100</strong> spots claimed';
+      }
+    }
+
+    // Allow visual preview of either state via ?founding=full or ?founding=73
+    var qs = new URLSearchParams(window.location.search);
+    var preview = qs.get('founding');
+    if (preview === 'full') { render(100, 100); return; }
+    if (preview && /^\d+$/.test(preview)) { render(parseInt(preview, 10), 100); return; }
+
+    fetch('https://app.vetcheckhq.com/api/founding-count', { cache: 'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (d && typeof d.claimed === 'number' && typeof d.cap === 'number') {
+          render(d.claimed, d.cap);
+        } else {
+          // Graceful fallback if endpoint unavailable
+          label.textContent = 'Limited to the first 100 members';
+          fill.style.width = '0%';
+        }
+      })
+      .catch(function(){
+        label.textContent = 'Limited to the first 100 members';
+        fill.style.width = '0%';
+      });
+  })();
+
+  // Billing period toggle
+  (function(){
+    var opts = document.querySelectorAll('.bt-opt');
+    var amount = document.querySelector('.price-amount[data-monthly]');
+    var sub = document.querySelector('.price-sub[data-monthly]');
+    if (!opts.length || !amount) return;
+    function render(period){
+      var val = amount.getAttribute('data-' + period) || '';
+      var parts = val.match(/^(\$[0-9]+)(.*)$/);
+      amount.innerHTML = parts ? parts[1] + '<span>' + parts[2] + '</span>' : val;
+      if (sub) sub.textContent = sub.getAttribute('data-' + period) || '';
+      opts.forEach(function(o){
+        var active = o.getAttribute('data-period') === period;
+        o.classList.toggle('active', active);
+        o.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    }
+    opts.forEach(function(o){
+      o.addEventListener('click', function(){ render(o.getAttribute('data-period')); });
+    });
+  })();
+
   function toggleMenu() {
     const m = document.getElementById('mobile-menu');
     m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
