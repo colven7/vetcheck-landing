@@ -1757,7 +1757,7 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          2FA &amp; full security suite
+          Multi-layered account protection
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1765,18 +1765,18 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          Available in 9 languages
+          Bills &amp; debt payoff projections
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          1 free month to start
+          30-day free trial to start
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
           Switch monthly or annual any time
         </li>
       </ul>
-      <a href="https://app.vetcheckhq.com" class="btn-price outline">Get Started Free</a>
+      <a href="https://app.vetcheckhq.com/signup?plan=monthly" id="btn-standard" class="btn-price outline" data-monthly-href="https://app.vetcheckhq.com/signup?plan=monthly" data-annual-href="https://app.vetcheckhq.com/signup?plan=annual">Start 30-Day Free Trial</a>
     </div>
 
     <div class="price-card featured fade-up delay-1" id="founding-card">
@@ -1812,7 +1812,7 @@
           Locked-in founding-member rate
         </li>
       </ul>
-      <a href="https://app.vetcheckhq.com" class="btn-price gold">Claim Your Spot</a>
+      <a href="https://app.vetcheckhq.com/signup?plan=founder" class="btn-price gold">Claim Your Spot</a>
     </div>
   </div>
 </section>
@@ -2068,12 +2068,17 @@
     var opts = document.querySelectorAll('.bt-opt');
     var amount = document.querySelector('.price-amount[data-monthly]');
     var sub = document.querySelector('.price-sub[data-monthly]');
+    var btn = document.getElementById('btn-standard');
     if (!opts.length || !amount) return;
     function render(period){
       var val = amount.getAttribute('data-' + period) || '';
       var parts = val.match(/^(\$[0-9]+)(.*)$/);
       amount.innerHTML = parts ? parts[1] + '<span>' + parts[2] + '</span>' : val;
       if (sub) sub.textContent = sub.getAttribute('data-' + period) || '';
+      if (btn) {
+        var href = btn.getAttribute('data-' + period + '-href');
+        if (href) btn.setAttribute('href', href);
+      }
       opts.forEach(function(o){
         var active = o.getAttribute('data-period') === period;
         o.classList.toggle('active', active);
