@@ -150,6 +150,7 @@
     }
     .nav-wordmark span { color: var(--gold); }
     .nav-wordmark .hq { color: var(--gold); font-size: 0.78em; letter-spacing: 0.06em; margin-left: 0.18em; font-weight: 500; }
+    .nav-wordmark .tm { color: var(--gold); font-size: 0.45em; letter-spacing: 0; margin-left: 0.1em; vertical-align: super; opacity: 0.85; }
 
     .nav-links {
       display: flex;
@@ -1382,7 +1383,7 @@
       <!-- Checkmark -->
       <polyline points="18,28 25,35 38,21" fill="none" stroke="url(#navCheckFill)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="nav-wordmark">VET<span>CHECK</span><span class="hq">HQ</span></span>
+    <span class="nav-wordmark">VET<span>CHECK</span><span class="hq">HQ</span><span class="tm" aria-hidden="true">&trade;</span></span>
   </a>
 
   <ul class="nav-links">
@@ -1973,7 +1974,7 @@
   <div class="notice-inner fade-up">
     <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <p class="notice-text">
-      <strong>Informational Platform Only.</strong> VetCheck is a personal tracking and educational resource tool. Nothing within this application or website, including Atlas, constitutes professional, financial, legal, medical, or investment advice of any kind. All features, including income tracking, debt management, opportunity listings, Atlas AI responses, and daily check-ins, are provided strictly for informational and organizational purposes. Users are solely responsible for all financial and career decisions made. VetCheck and Colven LLC expressly disclaim all liability for any decisions made in reliance on this platform. For advice, consult a licensed professional. Contact: <a href="mailto:admin@colven.solutions" style="color:var(--gold);">admin@colven.solutions</a>
+      <strong>Informational Platform Only.</strong> VetCheckHQ&trade; is a personal tracking and educational resource tool. Nothing within this application or website, including Atlas, constitutes professional, financial, legal, medical, or investment advice of any kind. All features, including income tracking, debt management, opportunity listings, Atlas AI responses, and daily check-ins, are provided strictly for informational and organizational purposes. Users are solely responsible for all financial and career decisions made. VetCheck and Colven LLC expressly disclaim all liability for any decisions made in reliance on this platform. For advice, consult a licensed professional. Contact: <a href="mailto:admin@colven.solutions" style="color:var(--gold);">admin@colven.solutions</a>
     </p>
   </div>
 </section>
@@ -1984,12 +1985,25 @@
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-logo">
-          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="34" height="34" rx="6" fill="#0f1526"/>
-            <path d="M17 5L27 10V17C27 22.523 22.523 27.5 17 29C11.477 27.5 7 22.523 7 17V10L17 5Z" fill="none" stroke="#c9a227" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M12 17L15.5 20.5L22 13.5" stroke="#c9a227" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="footShieldFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1a2a52"/>
+                <stop offset="100%" stop-color="#0c1838"/>
+              </linearGradient>
+              <linearGradient id="footCheckFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e8c757"/>
+                <stop offset="100%" stop-color="#b8902a"/>
+              </linearGradient>
+            </defs>
+            <!-- Outer shield with gold border -->
+            <path d="M28 4L6 13v14c0 13.25 9.35 25.64 22 28.62C40.65 52.64 50 40.25 50 27V13L28 4z" fill="url(#footShieldFill)" stroke="#c9a227" stroke-width="1.2" stroke-linejoin="round"/>
+            <!-- Inner thin gold line -->
+            <path d="M28 8.6L10 16.4v10.6c0 11 7.8 21.4 18 24 10.2-2.6 18-13 18-24V16.4L28 8.6z" fill="none" stroke="#c9a227" stroke-width="0.7" stroke-linejoin="round"/>
+            <!-- Checkmark -->
+            <polyline points="18,28 25,35 38,21" fill="none" stroke="url(#footCheckFill)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span class="footer-logo-text">VET<span>CHECK</span></span>
+          <span class="footer-logo-text">VET<span>CHECK</span><span class="hq">HQ</span><span class="tm" aria-hidden="true">&trade;</span></span>
         </div>
         <p class="footer-tagline">Financial intelligence and personal tracking for veterans, active-duty military, and public service professionals of all kinds.</p>
       </div>
@@ -2026,7 +2040,7 @@
 
     <div class="footer-bottom">
       <p class="footer-copy">
-        &copy; 2026 Colven LLC. All rights reserved. VetCheck is an informational platform built for veterans and public servants of all kinds. Not financial, legal, or professional advice.
+        &copy; 2026 Colven LLC. All rights reserved. VetCheckHQ&trade; is an informational platform built for veterans and public servants of all kinds. Not financial, legal, or professional advice.
       </p>
       <div class="footer-legal-links">
         <a href="https://app.vetcheckhq.com/privacy-policy" target="_blank" rel="noopener">Privacy</a>
