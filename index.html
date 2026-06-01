@@ -1990,16 +1990,18 @@
     return { amount: row[col], status: 'ok', mha: mha, name: BAH_DATA.mha_names[mha] || null };
   }
 
-  function updateZipMatchUI(result){
+  function updateZipMatchUI(result, rank){
     var el = $('calc-zip-match');
     if (!el) return;
     el.classList.remove('warn');
+    var note = (rank === 'O-8') ? ' · O-8 uses O-7 BAH rate (DFAS cap)' : '';
     if (result.status === 'loading') {
       el.textContent = 'Loading rates…';
     } else if (result.status === 'ok') {
-      el.textContent = 'MHA ' + result.mha + ' · ' + (result.name || '');
+      el.textContent = 'MHA ' + result.mha + ' · ' + (result.name || '') + note;
+      if (note) el.classList.add('warn');
     } else if (result.status === 'fallback') {
-      el.textContent = 'ZIP not in DFAS table · using national average';
+      el.textContent = 'ZIP not in DFAS table · using national average' + note;
       el.classList.add('warn');
     } else {
       el.textContent = '';
@@ -2069,7 +2071,7 @@
     const base = BASE_PAY[state.grade][rank][yos] || 0;
     const bas = BAS[state.grade];
     const bahResult = lookupBAH(zip, rank, deps);
-    updateZipMatchUI(bahResult);
+    updateZipMatchUI(bahResult, rank);
     let bah = inQuarters ? 0 : bahResult.amount;
 
     let basePay = base, basAmt = bas, bahAmt = bah;
