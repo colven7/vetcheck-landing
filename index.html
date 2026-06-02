@@ -1373,118 +1373,6 @@
 </head>
 <body>
 
-<style>
-  .top-ad-wrap {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 110;
-    width: 100%;
-    background: var(--navy);
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid rgba(201,162,39,0.15);
-  }
-  .top-ad-wrap.is-hidden { display: none; }
-  /* Push nav down below the ad */
-  body { padding-top: 112px; }
-  nav { top: 112px !important; }
-  @media (max-width: 720px) {
-    body { padding-top: 168px; }
-    nav { top: 168px !important; }
-  }
-  .top-ad {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 0.85rem 1.3rem;
-    background: rgba(15,21,38,0.9);
-    border: 1px solid rgba(201,162,39,0.35);
-    border-radius: 12px;
-    max-width: 760px;
-    width: 100%;
-  }
-  .top-ad .counter {
-    flex-shrink: 0;
-    text-align: center;
-    padding-right: 1rem;
-    border-right: 1px solid rgba(255,255,255,0.1);
-  }
-  .top-ad .counter .num {
-    color: var(--gold);
-    font-family: var(--font-display);
-    font-size: 1.9rem;
-    font-weight: 800;
-    line-height: 1;
-  }
-  .top-ad .counter .lbl-sm {
-    color: var(--muted);
-    font-family: var(--font-sub);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-top: 0.2rem;
-  }
-  .top-ad .body {
-    flex: 1;
-    color: var(--offwhite);
-    font-family: var(--font-sub);
-    font-size: 0.92rem;
-    line-height: 1.45;
-  }
-  .top-ad .body b { color: var(--gold); font-weight: 700; }
-  .top-ad .cta {
-    flex-shrink: 0;
-    background: var(--gold);
-    color: var(--navy);
-    padding: 0.6rem 1.1rem;
-    border-radius: 999px;
-    font-family: var(--font-sub);
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .top-ad .cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(201,162,39,0.4);
-  }
-  @media (max-width: 720px) {
-    .top-ad {
-      flex-direction: column;
-      gap: 0.7rem;
-      padding: 0.9rem 1rem;
-      text-align: center;
-    }
-    .top-ad .counter {
-      padding-right: 0;
-      padding-bottom: 0.6rem;
-      border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      width: 100%;
-    }
-    .top-ad .counter .num { font-size: 1.6rem; }
-  }
-</style>
-
-<!-- ─── TOP AD ──────────────────────────────────────────── -->
-<div class="top-ad-wrap" id="top-ad-wrap">
-  <div class="top-ad">
-    <div class="counter">
-      <div class="num" id="top-ad-num">100</div>
-      <div class="lbl-sm">Spots Open</div>
-    </div>
-    <div class="body">
-      <b>First 100 sign up.</b><br>
-      No charge while their account is active. No credit card. Open to everyone.
-    </div>
-    <a class="cta" href="#pricing">Claim Spot</a>
-  </div>
-</div>
-
 <!-- ─── NAV ──────────────────────────────────────────────── -->
 <nav>
   <a href="#" class="nav-logo" aria-label="VetCheck home">
@@ -2942,12 +2830,6 @@
       .then(function(d){
         if (d && typeof d.claimed === 'number' && typeof d.cap === 'number') {
           render(d.claimed, d.cap);
-          // Sync top ad counter
-          var topNum = document.getElementById('top-ad-num');
-          var topWrap = document.getElementById('top-ad-wrap');
-          var remaining = Math.max(0, d.cap - d.claimed);
-          if (topNum) topNum.textContent = remaining;
-          if (topWrap && remaining === 0) topWrap.classList.add('is-hidden');
         } else {
           // Graceful fallback if endpoint unavailable
           label.textContent = 'Limited to the first 100 members';
