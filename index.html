@@ -1882,14 +1882,14 @@
   <div class="calc-wrap">
     <div class="calc-card">
       <div class="calc-mode-toggle">
-        <button data-mode="military" class="active">Military</button>
+        <button data-mode="military">Military</button>
         <button data-mode="civilian">Civilian</button>
       </div>
 
       <!-- MILITARY FIELDS -->
       <div id="calc-military">
         <div class="calc-sub-toggle">
-          <button data-grade="E" class="active">Enlisted</button>
+          <button data-grade="E">Enlisted</button>
           <button data-grade="W">Warrant</button>
           <button data-grade="O">Officer</button>
         </div>
@@ -1905,6 +1905,7 @@
           <div class="calc-field">
             <label for="calc-status">Duty Status</label>
             <select id="calc-status">
+              <option value="" selected disabled>Select status</option>
               <option value="active">Active Duty</option>
               <option value="reserve">Reserve / Guard (Drill)</option>
               <option value="adsw">Reserve on Active Orders</option>
@@ -1912,12 +1913,13 @@
           </div>
           <div class="calc-field">
             <label for="calc-zip">Duty Station ZIP</label>
-            <input type="text" id="calc-zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 32801" value="32801" autocomplete="postal-code" />
-            <div id="calc-zip-match" class="calc-zip-match">Loading rates…</div>
+            <input type="text" id="calc-zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 32801" autocomplete="postal-code" />
+            <div id="calc-zip-match" class="calc-zip-match">Enter a ZIP to see your BAH rate</div>
           </div>
           <div class="calc-field">
             <label for="calc-deps">Dependents</label>
             <select id="calc-deps">
+              <option value="" selected disabled>Select option</option>
               <option value="no">Without Dependents</option>
               <option value="yes">With Dependents</option>
             </select>
@@ -1925,6 +1927,7 @@
           <div class="calc-field">
             <label for="calc-quarters">Government Quarters</label>
             <select id="calc-quarters">
+              <option value="" selected disabled>Select option</option>
               <option value="no">No (receive BAH)</option>
               <option value="yes">Yes (no BAH)</option>
             </select>
@@ -1937,11 +1940,12 @@
         <div class="calc-fields">
           <div class="calc-field">
             <label for="calc-salary">Annual Salary</label>
-            <input type="number" id="calc-salary" value="75000" min="0" step="1000" />
+            <input type="number" id="calc-salary" placeholder="e.g. 75000" min="0" step="1000" />
           </div>
           <div class="calc-field">
             <label for="calc-state">State</label>
             <select id="calc-state">
+              <option value="" selected disabled>Select state</option>
               <option value="FL">Florida</option>
               <option value="TX">Texas</option>
               <option value="CA">California</option>
@@ -1958,6 +1962,7 @@
           <div class="calc-field">
             <label for="calc-filing">Filing Status</label>
             <select id="calc-filing">
+              <option value="" selected disabled>Select status</option>
               <option value="single">Single</option>
               <option value="married">Married Filing Jointly</option>
               <option value="hoh">Head of Household</option>
@@ -1966,6 +1971,7 @@
           <div class="calc-field">
             <label for="calc-cdeps">Dependents</label>
             <select id="calc-cdeps">
+              <option value="" selected disabled>Select number</option>
               <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -1975,11 +1981,11 @@
           </div>
           <div class="calc-field">
             <label for="calc-401k">401(k) Contribution %</label>
-            <input type="number" id="calc-401k" value="6" min="0" max="50" step="1" />
+            <input type="number" id="calc-401k" placeholder="e.g. 6" min="0" max="50" step="1" />
           </div>
           <div class="calc-field">
             <label for="calc-housing">Monthly Housing Cost</label>
-            <input type="number" id="calc-housing" value="1800" min="0" step="50" />
+            <input type="number" id="calc-housing" placeholder="e.g. 1800" min="0" step="50" />
           </div>
         </div>
       </div>
@@ -2123,7 +2129,7 @@
   };
   const YOS_OPTS = [2,4,6,8,10,12,14,16,18,20,22];
 
-  let state = { mode:'military', grade:'E', rank:'E-5' };
+  let state = { mode:null, grade:null, rank:null };
 
   function $(id){ return document.getElementById(id); }
   function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
@@ -2131,37 +2137,57 @@
   function populateRanks(){
     const sel = $('calc-rank');
     sel.innerHTML = '';
-    RANKS[state.grade].forEach(r => {
-      const o = document.createElement('option');
-      o.value = r; o.textContent = r;
-      sel.appendChild(o);
-    });
-    // pick a sensible default
-    const defaults = { E:'E-5', W:'W-2', O:'O-3' };
-    sel.value = defaults[state.grade];
-    state.rank = sel.value;
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = state.grade ? 'Select rank' : 'Choose Enlisted, Warrant, or Officer';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    sel.appendChild(placeholder);
+    if (state.grade) {
+      RANKS[state.grade].forEach(r => {
+        const o = document.createElement('option');
+        o.value = r; o.textContent = r;
+        sel.appendChild(o);
+      });
+    }
+    state.rank = null;
   }
 
   function populateYOS(){
     const sel = $('calc-yos');
     sel.innerHTML = '';
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Select years';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    sel.appendChild(placeholder);
     YOS_OPTS.forEach(y => {
       const o = document.createElement('option');
       o.value = y; o.textContent = (y === 22 ? '22+' : y) + ' years';
       sel.appendChild(o);
     });
-    sel.value = 6;
   }
 
   function calcMilitary(){
     const rank = $('calc-rank').value;
-    const yos = parseInt($('calc-yos').value, 10);
+    const yosRaw = $('calc-yos').value;
     const status = $('calc-status').value;
     const zip = ($('calc-zip').value || '').replace(/\D/g, '').slice(0, 5);
-    const deps = $('calc-deps').value === 'yes';
-    const inQuarters = $('calc-quarters').value === 'yes';
+    const depsRaw = $('calc-deps').value;
+    const quartersRaw = $('calc-quarters').value;
 
-    const base = BASE_PAY[state.grade][rank][yos] || 0;
+    // Wait until the user has filled in the required fields before calculating.
+    if (!state.grade || !rank || !yosRaw || !status || zip.length !== 5 || !depsRaw || !quartersRaw) {
+      render(0, []);
+      return;
+    }
+
+    const yos = parseInt(yosRaw, 10);
+    const deps = depsRaw === 'yes';
+    const inQuarters = quartersRaw === 'yes';
+
+    const base = (BASE_PAY[state.grade] && BASE_PAY[state.grade][rank] && BASE_PAY[state.grade][rank][yos]) || 0;
     const bas = BAS[state.grade];
     const bahResult = lookupBAH(zip, rank, deps);
     updateZipMatchUI(bahResult, rank);
@@ -2196,9 +2222,16 @@
   }
 
   function calcCivilian(){
-    const salary = parseFloat($('calc-salary').value) || 0;
+    const salaryRaw = $('calc-salary').value;
     const stateCode = $('calc-state').value;
     const filing = $('calc-filing').value;
+
+    if (!salaryRaw || !stateCode || !filing) {
+      render(0, []);
+      return;
+    }
+
+    const salary = parseFloat(salaryRaw) || 0;
     const k401 = (parseFloat($('calc-401k').value) || 0) / 100;
     const housing = parseFloat($('calc-housing').value) || 0;
 
@@ -2234,6 +2267,7 @@
   }
 
   function recalc(){
+    if (!state.mode) { render(0, []); return; }
     if (state.mode === 'military') calcMilitary();
     else calcCivilian();
   }
@@ -2269,6 +2303,9 @@
       if (el && el.tagName === 'INPUT') el.addEventListener('input', recalc);
     });
 
+    // Start blank: no mode, no grade, empty selects.
+    $('calc-military').style.display = 'none';
+    $('calc-civilian').style.display = 'none';
     populateRanks();
     populateYOS();
     recalc();
