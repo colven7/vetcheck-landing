@@ -271,6 +271,86 @@
       max-width: 820px;
     }
 
+    .hero-ad {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 720px;
+      margin: 0 0 1.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(15,21,38,0.9);
+      border: 1px solid rgba(201,162,39,0.35);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color .2s ease, transform .2s ease;
+    }
+    .hero-ad:hover {
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .hero-ad.is-hidden { display: none; }
+    .hero-ad-counter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-right: 1rem;
+      border-right: 1px solid rgba(201,162,39,0.25);
+      min-width: 70px;
+    }
+    .hero-ad-num {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .hero-ad-lbl {
+      font-family: var(--font-sub);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+    .hero-ad-body {
+      flex: 1;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    .hero-ad-body b { color: var(--gold); font-weight: 700; }
+    .hero-ad-cta {
+      flex-shrink: 0;
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: var(--font-sub);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    @media (max-width: 720px) {
+      .hero-ad { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+      .hero-ad-counter {
+        flex-direction: row;
+        gap: 0.6rem;
+        padding: 0 0 0.6rem 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(201,162,39,0.25);
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .hero-ad-lbl { margin-top: 0; }
+      .hero-ad-cta { text-align: center; }
+    }
+
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
@@ -1431,6 +1511,17 @@
   <div class="hero-grid"></div>
 
   <div class="hero-content">
+    <a href="#pricing" class="hero-ad" id="hero-ad">
+      <div class="hero-ad-counter">
+        <div class="hero-ad-num" id="hero-ad-num">100</div>
+        <div class="hero-ad-lbl">Spots Open</div>
+      </div>
+      <div class="hero-ad-body">
+        <b>First 100 sign up.</b> No charge while their account is active. No credit card. Open to everyone.
+      </div>
+      <span class="hero-ad-cta">Claim Spot</span>
+    </a>
+
     <div class="hero-eyebrow">Backed by service &middot; Built for everyone</div>
 
     <div class="hero-kicker">Financial Intelligence</div>
@@ -2792,9 +2883,14 @@
     var badge = document.getElementById('founding-badge');
     var btn = card.querySelector('.btn-price');
 
+    var heroAd = document.getElementById('hero-ad');
+    var heroAdNum = document.getElementById('hero-ad-num');
+
     function render(claimed, cap){
       var remaining = Math.max(0, cap - claimed);
       var pct = Math.min(100, Math.round((claimed / cap) * 100));
+      if (heroAdNum) heroAdNum.textContent = remaining;
+      if (heroAd && remaining === 0) heroAd.classList.add('is-hidden');
       if (remaining > 0) {
         fill.style.width = pct + '%';
         label.innerHTML = '<strong>' + remaining + '</strong> of ' + cap + ' founding spots remaining';
